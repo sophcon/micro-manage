@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace MicroManage.Models
 {
-    public class Class1
+    public class Order : ModelBase
     {
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
+
 }
