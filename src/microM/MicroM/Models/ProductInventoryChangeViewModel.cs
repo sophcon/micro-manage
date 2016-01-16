@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MicroM.Models
 {
-    public class ProductInventoryChangeViewModel
+    public class InventorySummary
     {
         public int ProductId { get; set; }
         public int Count { get; set; }

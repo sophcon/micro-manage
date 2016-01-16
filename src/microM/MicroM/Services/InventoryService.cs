@@ -28,7 +28,7 @@ namespace MicroM.Services
             await this.Context.SaveChangesAsync();
 
             //init change model
-            var change = new ProductInventoryChangeViewModel {
+            var change = new InventorySummary {
                 ProductId = productId,
                 Count = this.Context.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count()
             };
@@ -66,7 +66,7 @@ namespace MicroM.Services
             }
 
             //init change model
-            ProductInventoryChangeViewModel change = new ProductInventoryChangeViewModel();
+            InventorySummary change = new InventorySummary();
             change.ProductId = productId;
 
             //get count

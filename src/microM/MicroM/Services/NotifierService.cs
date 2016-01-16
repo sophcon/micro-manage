@@ -11,7 +11,7 @@ namespace MicroM.Services
 {
     public interface INotifierService
     {
-        void SendProductInventoryChange(ProductInventoryChangeViewModel change);
+        void SendProductInventoryChange(InventorySummary change);
     }
     public class NotifierService : INotifierService
     {
@@ -21,7 +21,7 @@ namespace MicroM.Services
             this.HubContext = context;
         }
 
-        public void SendProductInventoryChange(ProductInventoryChangeViewModel change) {
+        public void SendProductInventoryChange(InventorySummary change) {
             this.HubContext.Clients.All.productUpdate(change);
         }
     }
