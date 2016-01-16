@@ -1,0 +1,31 @@
+﻿@model MicroM.Models.InventoryUpdateMessage
+@{
+    ViewBag.Title = "RegisterNewItem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RegisterNewItem</h2>
+
+@using (Html.BeginForm()) {
+    <div class="form-group">
+        @Html.TextBox("SerialId", null, new { @class = "form-control", @placeholder = "serial" })
+    </div>
+    <div class="form-group">
+        @Html.TextBox("ProductId", null, new { @class = "form-control", @placeholder = "product" })
+    </div>
+    <input type="button" value="send" onclick="sendAction()" class="btn btn-primary" />
+}
+
+
+<script>
+    function sendAction() {
+        $.ajax({
+            url: "../../Pi/AddInventory",
+            type: "POST",
+            data: {
+                serialId: $("#SerialId").val(),
+                productId: $("#ProductId").val(),
+            }
+        });
+    }
+</script>
