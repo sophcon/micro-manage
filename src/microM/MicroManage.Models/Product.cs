@@ -12,7 +12,6 @@ namespace MicroManage.Models
         public string Description { get; set; }
         public bool WebAvailable { get; set; }
         public decimal Price { get; set; }
-        public int Count { get; set; }
         public int CategoryId { get; set; }
         public int[] AssemblyProductIds { get; set; }
     }

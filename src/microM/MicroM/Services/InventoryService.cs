@@ -41,9 +41,6 @@ namespace MicroM.Services
                 Count = GetProductCount(productId)
             };
 
-            //set product count
-            new ProductService(this.Context).UpdateProductCount(productId, change.Count);
-
             //send signalr notification of invetory change
             this.NotifierService.SendProductInventoryChange(change);
         }

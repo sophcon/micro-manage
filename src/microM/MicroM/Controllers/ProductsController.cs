@@ -26,7 +26,7 @@ namespace MicroM.Controllers
             product.CategoryId = int.Parse(frm["category"]);
             product.Name = frm["name"];
             product.Price = decimal.Parse(frm["price"]);
-            product.Count = 0;
+            //product.Count = 0;
             product.WebAvailable = false;
             product.Description = frm["description"];
             await Task.Run(() => ProductService.CreateProduct(product));
