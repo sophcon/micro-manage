@@ -38,12 +38,12 @@ namespace MicroM.Controllers
         }
 
         [HttpGet]
-        public JsonResult product()
+        public JsonResult Product()
         {
             List<Product> product = new List<Product>();
             product = _db.Products.ToList();
 
-            return Json(product,JsonRequestBehavior .AllowGet);
+          return Json(product,JsonRequestBehavior .AllowGet);
             
         }
 
