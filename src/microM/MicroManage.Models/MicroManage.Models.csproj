@@ -52,6 +52,7 @@
     <Compile Include="Address.cs" />
     <Compile Include="Bin.cs" />
     <Compile Include="BinRFIDAssignment.cs" />
+    <Compile Include="Category.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="InventoryAudit.cs" />
     <Compile Include="MicroManageContext.cs" />
