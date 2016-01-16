@@ -78,6 +78,9 @@ namespace MicroM.Controllers
             //get count
             change.Count = _db.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count();
 
+            //set product count
+            UpdateProductCount(productId, change.Count);
+
             //send signalr notification of invetory change
             SendProductInventoryChange(change);
         }
@@ -100,6 +103,9 @@ namespace MicroM.Controllers
             //get count
             change.Count = _db.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count();
 
+            //set product count
+            UpdateProductCount(productId, change.Count);
+
             //send signalr notification of invetory change
             SendProductInventoryChange(change);
         }
@@ -112,6 +118,18 @@ namespace MicroM.Controllers
             //send new data
             _context.Clients.All.productUpdate(change);
 
+        }
+
+        private void UpdateProductCount(int productId,int count)
+        {
+            //update product count
+            Product product = _db.Products.FirstOrDefault(m => m.Id == productId);
+            product.Count = count;
+
+            //send to db
+            _db.Products.Attach(product);
+            _db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+            _db.SaveChanges();
         }
 
     }

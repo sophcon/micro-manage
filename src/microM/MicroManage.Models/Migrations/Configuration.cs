@@ -53,6 +53,8 @@ namespace MicroManage.Models.Migrations
                                             new Address { Id = 16, CustomerID = 8, Street = "2817 Milton Dr.", City = "Albuquerque", State = "NM", PostalCode = "87110" },
                                             new Address { Id = 17, CustomerID = 9, Street = "Av. Copacabana, 267", City = "Rio de Janeiro", State = "RJ", PostalCode = "02389-890" },
                                             new Address { Id = 18, CustomerID = 9, Street = "187 Suffolk Ln.", City = "Boise", State = "ID", PostalCode = "83720" });
+
+            context.Products.AddOrUpdate(   new Product { Id = 1, Name = "Test Product", Description = "none", WebAvailable = true, Price = 20, Count = 1 });
         }
     }
 }
