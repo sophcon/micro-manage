@@ -10,6 +10,7 @@ namespace MicroManage.Models
     {
         public int ProductId { get; set; }
         public string SerialId { get; set; }
+        public int BinId { get; set; }
         public InventoryStatus Status { get; set; }
     }
 

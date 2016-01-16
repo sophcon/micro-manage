@@ -25,7 +25,7 @@ namespace MicroM.Services
             this.ProductService = productService;
         }
 
-        public async void RemoveInventoryProduct(int productId, string serialId) {
+        public async Task RemoveInventoryProduct(int productId, string serialId) {
             //find record with productid and change productinventory field to sold = 3
             var product = this.Context.ProductInventories.FirstOrDefault(m => m.SerialId == serialId);
             product.Status = InventoryStatus.Sold;
@@ -41,9 +41,6 @@ namespace MicroM.Services
                 Count = GetProductCount(productId)
             };
 
-            //set product count
-            new ProductService(this.Context).UpdateProductCount(productId, change.Count);
-
             //send signalr notification of invetory change
             this.NotifierService.SendProductInventoryChange(change);
         }
@@ -51,8 +48,8 @@ namespace MicroM.Services
         public async Task<ProductInventory> GetInventoryBySerialIdAsync(string serialId) =>
             await Context.ProductInventories.FirstOrDefaultAsync(m => m.SerialId == serialId);
 
-        public async void AddInventoryProduct(int binId, string serialId) {
-            ProductInventory pi = await GetInventoryBySerialIdAsync(serialId);
+        public async Task UpdateInventory(int binId, string serialId) {
+            var pi = await GetInventoryBySerialIdAsync(serialId);
 
             if (pi == null) {
                 throw new ArgumentOutOfRangeException(nameof(serialId), $"The system cannot locate an inventory entry for serial id '{serialId}'.");
@@ -61,6 +58,25 @@ namespace MicroM.Services
             UpdateInventoryStatus(pi, InventoryStatus.InStock, binId);
         }
 
+        public async Task AddSerializedItem (int Id, string serialId)
+        {
+            var inventoryEntry = await GetInventoryBySerialIdAsync(serialId);
+
+            if (inventoryEntry != null) {
+                throw new Exception("Serial Id is already in used");
+            }
+            inventoryEntry = new ProductInventory
+            {
+                ProductId = Id,
+                SerialId = serialId,
+                Status = InventoryStatus.InStock
+            };
+            this.Context.ProductInventories.Add(inventoryEntry);
+
+            await this.Context.SaveChangesAsync();
+            await PostSaveAsync(inventoryEntry, inventoryEntry.Status);
+        }
+        
         public async void UpdateInventoryStatus(ProductInventory inventoryEntry, InventoryStatus newStatus, int binId) {
             var oldStatus = inventoryEntry.Status;
             inventoryEntry.Status = newStatus;
@@ -69,7 +85,10 @@ namespace MicroM.Services
             this.Context.ProductInventories.Attach(inventoryEntry);
             this.Context.Entry(inventoryEntry).State = EntityState.Modified;
             await this.Context.SaveChangesAsync();
+            await PostSaveAsync(inventoryEntry, oldStatus);
+        }
 
+        private async Task PostSaveAsync(ProductInventory inventoryEntry, InventoryStatus oldStatus) {
             await this.AuditService.AppendAuditEntryAsync(new InventoryAudit {
                 EventDate = DateTime.Now,
                 Inventory = inventoryEntry,

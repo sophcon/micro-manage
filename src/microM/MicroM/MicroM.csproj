@@ -211,6 +211,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\AuditService.cs" />
+    <Compile Include="Services\BinService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\NotifierService.cs" />
@@ -316,10 +317,10 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\_Create.cshtml" />
     <Content Include="Views\Products\_Edit.cshtml" />
+    <Content Include="Views\Bins\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Bins\" />
     <Folder Include="Views\_Micro\" />
   </ItemGroup>
   <ItemGroup>

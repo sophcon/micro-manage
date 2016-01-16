@@ -12,7 +12,6 @@ namespace MicroM.Services
         void CreateProduct(Product product);
         void EditProduct(Product product);
         List<Product> GetProducts();
-        void UpdateProductCount(int productId, int count);
     }
     public class ProductService : IProductService
     {
@@ -43,17 +42,6 @@ namespace MicroM.Services
         public Product GetProduct(int id)
         {
             return Context.Products.Find(id);
-        }
-
-        public async void UpdateProductCount(int productId, int count) {
-            //update product count
-            Product product = Context.Products.Find(productId);
-            product.Count = count;
-
-            //send to db
-            Context.Products.Attach(product);
-            Context.Entry(product).State = EntityState.Modified;
-            await Context.SaveChangesAsync();
         }
     }
 }

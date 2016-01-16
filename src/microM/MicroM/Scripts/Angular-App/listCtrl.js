@@ -35,7 +35,7 @@
           console.log($scope.serial);
           console.log($scope.selected);
           $.ajax({
-              url: "../../Pi/AddInventory",
+              url: "../../Pi/AddSerializedItem",
               type: "POST",
               data: {
                   serialId: $scope.serial,
@@ -57,4 +57,8 @@
             }
         });
     };
-});
+}).filter('yesNo', function() {
+    return function(input) {
+        return input ? 'yes' : 'no';
+    }
+})

@@ -19,22 +19,30 @@ namespace MicroM.Controllers
             return PartialView();
         }
 
-        public PartialViewResult _Edit(int id)
-        {
-            return PartialView(this.ProductService.GetProduct(id));
-        }
-
         [HttpPost]
-        public async Task<JsonResult> _Edit(Product cat)
+        public async Task<JsonResult> _Create(FormCollection frm)
         {
-            await Task.Run(() => this.ProductService.EditProduct(cat));
+            Product product = new Product();
+            product.CategoryId = int.Parse(frm["category"]);
+            product.Name = frm["name"];
+            product.Price = decimal.Parse(frm["price"]);
+            //product.Count = 0;
+            product.WebAvailable = false;
+            product.Description = frm["description"];
+            await Task.Run(() => ProductService.CreateProduct(product));
             return Json(true);
         }
 
-        [HttpPost]
-        public async Task<JsonResult> _Create(Product product)
+        [HttpGet]
+        public PartialViewResult _Edit(int id)
         {
-            await Task.Run(() => this.ProductService.CreateProduct(product));
+            return PartialView(ProductService.GetProduct(id));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> _Edit(Product product)
+        {
+            await Task.Run(() => ProductService.EditProduct(product));
             return Json(true);
         }
 

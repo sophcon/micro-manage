@@ -2,14 +2,38 @@
 
 @using (Html.BeginForm("_Edit", "Products", FormMethod.Post, new { @id = "EditForm" }))
 {
-    @Html.HiddenFor(m => m.Id)
+    @Html.Hidden("IdEdit",Model.Id)
 
     <div class="form-group">
         <label>Name</label>
-        @Html.TextBox("NameEdit", Model.Name, new { @class = "form-control", @placeholder = "name", @id = "NameEdit" })
+        @Html.TextBox("NameEdit", Model.Name, new { @class = "form-control", @placeholder = "name", @id = "NameEdit"})
     </div>
     <div class="form-group">
         <label>Category</label>
-        @Html.TextBox("CategoryEdit", Model.CategoryId, new { @class = "form-control", @placeholder = "name", @id = "CategoryEdit" })
+        <select id="CategoryEdit" name="Category" class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Price</label>
+        @Html.TextBox("PriceEdit", Model.Price, new { @class = "form-control", @placeholder = "price", @type = "number"})
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        @Html.TextArea("DescriptionEdit", Model.Description, new { @class = "form-control", @placeholder = "description", @type = "text" })
     </div>
 }
+
+<script>
+    $(function () {
+        var id = @Model.CategoryId;
+        //populate selectList
+        $.each(catList, function (i, val) {
+            if(val.Id == id){
+                $("#CategoryEdit").append("<option value='" + val.Id + "' selected>" + val.Name + "</option>");
+            }
+            else{
+                $("#CategoryEdit").append("<option value='" + val.Id + "'>" + val.Name + "</option>");
+            }
+        });
+    });    
+</script>

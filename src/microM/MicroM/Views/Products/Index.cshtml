@@ -47,14 +47,38 @@
     </div>
 
     <script>
-        var catList=[];
+        var catList = [];
+        
+        function getCatName(id) {
+            var name;
+            $.each(catList, function (i, val) {
+                if (val.Id == id) {
+                    name = val.Name;
+                    return false;
+                }
+            });
+            return name;
+        }
+
+        function fetchCat() {
+            //loop thorough
+            $(".cat").each(function () {
+                var catid = parseInt($(this).attr('mm'));
+                $(this).text(getCatName(catid));
+            });
+        }
 
         function showCreate() {
             $("#addProduct").modal('show');
         }
 
         function CreateProduct() {
-            var values = { name: $("#Name").val(), category: $("#Category").val() }
+            var values = {
+                name: $("#Name").val(),
+                category: $("#CategorySelect").val(),
+                description: $("#Description").val(),
+                price: $("#Price").val()
+            }
             $.ajax({
                 url: "../../Products/_Create",
                 type: "POST",
@@ -63,7 +87,9 @@
                     if (result) {
                         //refresh list
                         $("#addProduct").modal('hide');
-                        $("#list").load("../../Products/_List");
+                        $("#list").load("../../Products/_List", function () {
+                            fetchCat();
+                        });
                         $("#Name").val('');
                         $("#Category").val('');
                     }
@@ -79,9 +105,11 @@
 
         function editProduct() {
             var values = {
-                Id: $("#Id").val(),
+                Id: $("#IdEdit").val(),
                 Name: $("#NameEdit").val(),
-                category: $("#CategoryEdit").val(),
+                CategoryId: $("#CategoryEdit").val(),
+                Price: $("#PriceEdit").val(),
+                Description: $("#DescriptionEdit").val(),
             }
 
             $.ajax({
@@ -91,20 +119,11 @@
                 success: function () {
                     $("#edit").html('');
                     $("#editProduct").modal('hide');
-                    $("#list").load("../../Products/_List");
+                    $("#list").load("../../Products/_List", function () {
+                        fetchCat();
+                    });
                 }
             });
-        }
-
-        function getCatName(id) {            
-            var name;
-            $.each(catList,function(i,val) {
-                if (val.Id == id) {
-                    name = val.Name;
-                    return false;
-                }
-            });
-            return name;
         }
 
         $(function () {
@@ -113,11 +132,8 @@
                 type: "GET",
                 success: function (result) {
                     catList = result;
-                    //loop thorough
-                    $(".cat").each(function () {
-                        var catid = parseInt($(this).attr('mm'));
-                        $(this).text(getCatName(catid));
-                    });
+                    
+                    fetchCat();
 
                     //populate selectList
                     $.each(catList, function (i, val) {
