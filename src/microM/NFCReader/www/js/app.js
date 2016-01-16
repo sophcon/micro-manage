@@ -19,14 +19,18 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
     }])
     .controller('MainController', function ($scope, $http, nfcService) {
 
+        $scope.selectedBinId = null;
         $scope.modeList = [ { id: 0, name: 'Adjust In' }, { id: 3, name: 'Adjust Out' }, { id: 2, name: 'Catalog' } ];
+        $scope.binList = [1,2,3];
         $scope.selectedMode = $scope.modeList[0];
         $scope.tag = nfcService.tag;
 
         $scope.modeClicked = function(mode) {
           $scope.selectedMode = mode;
         }
-
+        $scope.binClicked = function(bin) {
+          $scope.selectedBinId = bin;
+        }
         $scope.clear = function() {
             nfcService.clearTag();
         };
@@ -49,8 +53,8 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
 
                     if($scope.selectedMode.id == 0) {
                         url = "http://micromanage.azurewebsites.net/pi/AddInventory";
-                    } else if($scope.selectedMode.id == 1) {
-                        url = "http://micromanage.azurewebsites.net/pi/RemoveInventory";
+                    } else if($scope.selectedBinId == 1) {
+                        url = "http://micromanage.azurewebsites.net/pi/ReduceInventory";
                     } else {
                         //url = "http://micromanage.azurewebsites.net/pi/AddInventory";
                     }
@@ -59,11 +63,11 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
                         $.ajax({
                             url: url,
                             type: "POST",
-                            data: { binId: 1, serialId: tagId },
+                            data: { binId: $scope.selectedBin.id, serialId: tagId },
                             crossDomain: true,
                             dataType: 'application/json',
                             success: function(data) {
-                              
+
                             },
                             error: function(e) {
                               $scope.msg = JSON.stringify(e);
