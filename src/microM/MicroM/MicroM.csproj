@@ -187,7 +187,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ProductInventoryChangeViewModel.cs" />
+    <Compile Include="Models\InventorySummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\NotifierService.cs" />
