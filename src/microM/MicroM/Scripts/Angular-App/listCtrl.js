@@ -1,3 +1,4 @@
-﻿angular.module('App').controller('listCtrl', ['$scope','$product','$http', function ($scope,$product,$http) {
-    
+﻿angular.module('App').controller('listCtrl', ['product','$scope','$http', function (product,$scope,$http) {
+    $scope.product = product;
+    console.log($scope.product);
 }])

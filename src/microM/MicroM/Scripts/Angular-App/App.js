@@ -8,7 +8,7 @@
         controller: 'listCtrl',
         resolve: {
             product: ['$http', function ($http) {
-                return $http.get('../../Test/Data').then(function (response) {
+                return $http.get('../../Home/Product').then(function (response) {
                     return response.data;
                 })
             }]

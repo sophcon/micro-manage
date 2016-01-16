@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
 using MicroM.Models;
+using MicroManage.Models;
 
 namespace MicroM.Controllers
 {
@@ -31,7 +32,19 @@ namespace MicroM.Controllers
 
         public PartialViewResult List()
         {
+
+            
             return PartialView();
+        }
+
+        [HttpGet]
+        public JsonResult product()
+        {
+            List<Product> product = new List<Product>();
+            product = _db.Products.ToList();
+
+            return Json(product,JsonRequestBehavior .AllowGet);
+            
         }
 
         [HttpGet]
