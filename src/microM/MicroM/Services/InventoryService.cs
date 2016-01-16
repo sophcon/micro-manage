@@ -51,7 +51,7 @@ namespace MicroM.Services
         public async Task<ProductInventory> GetInventoryBySerialIdAsync(string serialId) =>
             await Context.ProductInventories.FirstOrDefaultAsync(m => m.SerialId == serialId);
 
-        public async void AddInventoryProduct(int binId, string serialId) {
+        public async Task AddInventoryProduct(int binId, string serialId) {
             ProductInventory pi = await GetInventoryBySerialIdAsync(serialId);
 
             if (pi == null) {
@@ -59,6 +59,17 @@ namespace MicroM.Services
             }
 
             UpdateInventoryStatus(pi, InventoryStatus.InStock, binId);
+        }
+        public async Task AddSerializedItem (int Id, string serialId)
+        {
+            ProductInventory pi = await GetInventoryBySerialIdAsync(serialId);
+            if (pi != null)
+            {
+                throw new Exception("Serial Id is already in used");
+                
+            }
+
+            await AddInventoryProduct(Id, serialId);
         }
 
         public async void UpdateInventoryStatus(ProductInventory inventoryEntry, InventoryStatus newStatus, int binId) {

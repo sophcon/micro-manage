@@ -42,6 +42,21 @@ namespace MicroM.Controllers
             return Json(true);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> AddSerializedItem(InventoryUpdateMessage message) {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
+            var notifierService = new NotifierService(hubContext);
+            var auditService = new AuditService(_db);
+            var productService = new ProductService(_db);
+            var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
+
+            await inventoryService.AddSerializedItem(message.ProductId, message.SerialId);
+
+            return Json(true);
+
+
+        }
+
         public async Task<JsonResult> RemoveInventory(InventoryUpdateMessage message) {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
