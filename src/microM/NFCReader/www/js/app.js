@@ -52,7 +52,7 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
                     $.mobile.allowCrossDomainPages = true;
 
                     if($scope.selectedMode.id == 0) {
-                        url = "http://micromanage.azurewebsites.net/pi/AddInventory";
+                        url = "http://micromanage.azurewebsites.net/pi/AdjustInventory";
                     } else if($scope.selectedBinId == 1) {
                         url = "http://micromanage.azurewebsites.net/pi/ReduceInventory";
                     } else {
