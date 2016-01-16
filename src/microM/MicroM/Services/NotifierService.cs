@@ -24,5 +24,9 @@ namespace MicroM.Services
         public void SendProductInventoryChange(InventorySummary change) {
             this.HubContext.Clients.All.productUpdate(change);
         }
+
+        public void Test(string message) {
+            this.HubContext.Clients.All.testEvent(message);
+        }
     }
 }

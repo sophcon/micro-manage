@@ -7,6 +7,7 @@ using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
 using MicroM.Models;
 using MicroManage.Models;
+using MicroM.Services;
 
 namespace MicroM.Controllers
 {
@@ -32,19 +33,12 @@ namespace MicroM.Controllers
 
         public PartialViewResult List()
         {
-
-            
             return PartialView();
         }
 
         [HttpGet]
-        public JsonResult Product()
-        {
-            List<Product> product = new List<Product>();
-            product = _db.Products.ToList();
-
-          return Json(product,JsonRequestBehavior .AllowGet);
-            
+        public JsonResult Product() {
+            return Json(_db.Products.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -57,10 +51,7 @@ namespace MicroM.Controllers
         public JsonResult SignalRTest(FormCollection frm)
         {
             string msg = frm["message"];
-            var _hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
-
-            //send data to clients
-            _hubContext.Clients.All.testEvent(msg);
+            var notifierService = new NotifierService(GlobalHost.ConnectionManager.GetHubContext<MicroHub>());
 
             return Json(msg); 
         }
