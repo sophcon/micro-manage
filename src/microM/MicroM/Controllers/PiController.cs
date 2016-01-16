@@ -8,6 +8,7 @@ using MicroM.Models;
 using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
 using MicroM.Services;
+using System.Threading.Tasks;
 
 namespace MicroM.Controllers
 {
@@ -26,7 +27,7 @@ namespace MicroM.Controllers
         }
 
         [HttpPost]
-        public JsonResult RegisterNewItem(FormCollection frm)
+        public async Task<JsonResult> RegisterNewItem(FormCollection frm)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
@@ -37,9 +38,9 @@ namespace MicroM.Controllers
             string action = frm["action"];
 
             if (action == "ADD" || action == "add") {
-                inventoryService.AddInventoryProduct(productId, serialId);
+                await Task.Run(() => inventoryService.AddInventoryProduct(productId, serialId));
             } else {
-                inventoryService.RemoveInventoryProduct(productId, serialId);
+                await Task.Run(() => inventoryService.RemoveInventoryProduct(productId, serialId));
             }
 
             return Json(true);

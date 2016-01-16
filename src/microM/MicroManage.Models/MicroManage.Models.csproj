@@ -52,6 +52,7 @@
     <Compile Include="Address.cs" />
     <Compile Include="Bin.cs" />
     <Compile Include="BinRFIDAssignment.cs" />
+    <Compile Include="Catergory.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="InventoryAudit.cs" />
     <Compile Include="MicroManageContext.cs" />
@@ -66,6 +67,14 @@
     <Compile Include="Migrations\201601160737351_Added Product Count.cs" />
     <Compile Include="Migrations\201601160737351_Added Product Count.Designer.cs">
       <DependentUpon>201601160737351_Added Product Count.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601161143294_Add Categories.cs" />
+    <Compile Include="Migrations\201601161143294_Add Categories.Designer.cs">
+      <DependentUpon>201601161143294_Add Categories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601161157201_Added CategoryId Field to Product.cs" />
+    <Compile Include="Migrations\201601161157201_Added CategoryId Field to Product.Designer.cs">
+      <DependentUpon>201601161157201_Added CategoryId Field to Product.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelBase.cs" />
@@ -87,6 +96,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601160737351_Added Product Count.resx">
       <DependentUpon>201601160737351_Added Product Count.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601161143294_Add Categories.resx">
+      <DependentUpon>201601161143294_Add Categories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601161157201_Added CategoryId Field to Product.resx">
+      <DependentUpon>201601161157201_Added CategoryId Field to Product.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
