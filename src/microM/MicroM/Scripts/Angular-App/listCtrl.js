@@ -16,7 +16,6 @@
                   $scope.products[i].Count = message.Count;
                   $scope.$apply()
                   return false;
-                  
               }
           })
           
