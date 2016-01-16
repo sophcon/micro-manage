@@ -1,53 +1,52 @@
-angular.module('starter.controllers', [])
-  .controller('DashCtrl', function($scope, $cordovaNfc, $cordovaNfcUtil) {
+angular.module('starter.controllers', ["ngCordova.plugins.nfc"])
+  .controller('DashCtrl', ['$scope', '$cordovaNfc', '$cordovaNfcUtil', function ($scope, $cordovaNfc, $cordovaNfcUtil) {
 
-  var deploy = new Ionic.Deploy();
-  $scope.testMsg = "NOTHING YET";
+      //var deploy = new Ionic.Deploy();
+      //Because of the problem about the async-ness of the nfc plugin, we need to wait
+      //for it to be ready.
+      $cordovaNfc.then(function (nfcInstance) {
 
-  $cordovaNfc.then(function(nfcInstance){
+          //Use the plugins interface as you go, in a more "angular" way
+          nfcInstance.addNdefListener(function (event) {
+              //Callback when ndef got triggered
+              alert('something');
+          })
+          .then(
+            //Success callback
+            function (event) {
+                alert("bound success");
+            },
+            //Fail callback
+            function (err) {
+                alert("error");
+            });
+      });
 
-        //Use the plugins interface as you go, in a more "angular" way
-      nfcInstance.addNdefListener(function(event){
-            //Callback when ndef got triggered
-      })
-      .then(
-        //Success callback
-        function(event){
-            console.log("bound success");
-            $scope.testMsg = "bound success";
-        },
-        //Fail callback
-        function(err){
-            console.log("error");
-            $scope.testMsg = "error";
-        });
-   });
+      $cordovaNfcUtil.then(function (nfcUtil) {
+          alert(nfcUtil.bytesToString("some bytes"))
+      });
+      // Update app code with new release from Ionic Deploy
+      $scope.doUpdate = function () {
+          $scope.testMsg = "doUpdate clicked";
+          //deploy.update().then(function (res) {
+          //    $scope.testMsg = 'Ionic Deploy: Update Success! ';
+          //}, function (err) {
+          //    $scope.testMsg = 'Ionic Deploy: Update error! ';
+          //}, function (prog) {
+          //    $scope.testMsg = 'Ionic Deploy: Progress... ';
+          //});
+      };
 
-   $cordovaNfcUtil.then(function(nfcUtil){
-        console.log( nfcUtil.bytesToString("some bytes") )
-        $scope.testMsg = "GOT ONE";
-   });    
-
-  // Update app code with new release from Ionic Deploy
-  $scope.doUpdate = function() {
-    deploy.update().then(function(res) {
-      console.log('Ionic Deploy: Update Success! ', res);
-    }, function(err) {
-      console.log('Ionic Deploy: Update error! ', err);
-    }, function(prog) {
-      console.log('Ionic Deploy: Progress... ', prog);
-    });
-  };
-
-  // Check Ionic Deploy for new code
-  $scope.checkForUpdates = function() {
-    console.log('Ionic Deploy: Checking for updates');
-    deploy.check().then(function(hasUpdate) {
-      console.log('Ionic Deploy: Update available: ' + hasUpdate);
-      $scope.hasUpdate = hasUpdate;
-    }, function(err) {
-      console.error('Ionic Deploy: Unable to check for updates', err);
-    });
-  }
-
-});
+      // Check Ionic Deploy for new code
+      $scope.checkForUpdates = function () {
+          $scope.testMsg = "checkForUpdates clicked";
+          //console.log('Ionic Deploy: Checking for updates');
+          //deploy.check().then(function (hasUpdate) {
+          //    console.log('Ionic Deploy: Update available: ' + hasUpdate);
+          //    $scope.hasUpdate = hasUpdate;
+          //}, function (err) {
+          //    console.error('Ionic Deploy: Unable to check for updates', err);
+          //    $scope.hasUpdate = 'Error';
+          //});
+      }
+  }]);
