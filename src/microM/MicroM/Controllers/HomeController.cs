@@ -47,10 +47,6 @@ namespace MicroM.Controllers
             
         }
 
-        
-
-
-
         [HttpGet]
         public ActionResult SignalRTest()
         {

@@ -48,6 +48,11 @@ namespace MicroM.Services
             await Context.SaveChangesAsync();
         }
 
+        public List<Category> GetActiveCategories()
+        {
+            return Context.Categories.Where(c => c.IsActive == true).ToList();             
+        }
+
         public async void InactivateCategory(int CategoryId)
         {
             Category cat = Context.Categories.Find(CategoryId);

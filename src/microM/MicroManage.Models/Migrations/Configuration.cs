@@ -55,6 +55,8 @@ namespace MicroManage.Models.Migrations
                                             new Address { Id = 18, CustomerID = 9, Street = "187 Suffolk Ln.", City = "Boise", State = "ID", PostalCode = "83720" });
 
             context.Products.AddOrUpdate(   new Product { Id = 1, Name = "Test Product", Description = "none", WebAvailable = true, Price = 20, Count = 1 });
+
+            context.Categories.AddOrUpdate(new Category { Id = 1, Name = "Main", IsActive = true });
         }
     }
 }
