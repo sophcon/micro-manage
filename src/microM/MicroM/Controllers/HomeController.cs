@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.SignalR;
-using MicroM.Hubs;
 
 namespace MicroM.Controllers
 {
@@ -27,24 +25,6 @@ namespace MicroM.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult SignalRTest()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public JsonResult SignalRTest(FormCollection frm)
-        {
-            string msg = frm["message"];
-            var _hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
-
-            //send data to clients
-            _hubContext.Clients.All.testEvent(msg);
-
-            return Json(msg); 
         }
     }
 }
