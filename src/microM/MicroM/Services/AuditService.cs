@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace MicroM.Services
@@ -9,7 +10,7 @@ namespace MicroM.Services
     public interface IAuditService
     {
         MicroManageContext Context { get; set; }
-        void AppendAuditEntry(InventoryAudit auditEntry);
+        Task AppendAuditEntryAsync(InventoryAudit auditEntry);
     }
 
     public class AuditService : IAuditService
@@ -20,7 +21,7 @@ namespace MicroM.Services
             this.Context = context;
         }
 
-        public async void AppendAuditEntry(InventoryAudit auditEntry) {
+        public async Task AppendAuditEntryAsync(InventoryAudit auditEntry) {
             this.Context.InventoryAudits.Add(auditEntry);
             await this.Context.SaveChangesAsync();
         }
