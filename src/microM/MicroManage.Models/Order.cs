@@ -11,6 +11,7 @@ namespace MicroManage.Models
     {
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
+        public DateTime AddedOn { get; set; }        
         public virtual Customer Customer { get; set; }
     }
 

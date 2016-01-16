@@ -16,7 +16,7 @@ namespace MicroManage.Models {
         public IDbSet<Product> Products { get; set; }
         public IDbSet<ProductInventory> ProductInventories { get; set; }
         public IDbSet<Category> Categories { get; set; }
-
+        public IDbSet<Category> OrderProducts { get; set; }
         public MicroManageContext()
             : base("name=MicroManageContext") {
 
