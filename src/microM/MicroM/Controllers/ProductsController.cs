@@ -11,7 +11,7 @@ namespace MicroM.Controllers
     public class ProductsController : _MicroController
     {
 
-        private ProductService _service;
+        private ProductService ProductService;
 
         [HttpGet]
         public PartialViewResult _Create()
@@ -21,28 +21,27 @@ namespace MicroM.Controllers
 
         public PartialViewResult _Edit(int id)
         {
-
-            return PartialView(_service.GetProduct(id));
+            return PartialView(this.ProductService.GetProduct(id));
         }
 
         [HttpPost]
         public async Task<JsonResult> _Edit(Product cat)
         {
-            await Task.Run(() => _service.EditProduct(cat));
+            await Task.Run(() => this.ProductService.EditProduct(cat));
             return Json(true);
         }
 
         [HttpPost]
         public async Task<JsonResult> _Create(Product product)
         {
-            await Task.Run(() => _service.CreateProduct(product));
+            await Task.Run(() => this.ProductService.CreateProduct(product));
             return Json(true);
         }
 
         [HttpGet]
         public PartialViewResult _List()
         {            
-            return PartialView(_service.GetProducts());
+            return PartialView(this.ProductService.GetProducts());
         }
         
         public ActionResult Index()
@@ -52,7 +51,7 @@ namespace MicroM.Controllers
 
         public ProductsController()
         {
-            _service = new ProductService(_db);
+            this.ProductService = new ProductService(_db);
         }
 
     }
