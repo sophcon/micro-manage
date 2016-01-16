@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201601160544002_Address_RemoveCustomerRelationship.Designer.cs">
       <DependentUpon>201601160544002_Address_RemoveCustomerRelationship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601160737351_Added Product Count.cs" />
+    <Compile Include="Migrations\201601160737351_Added Product Count.Designer.cs">
+      <DependentUpon>201601160737351_Added Product Count.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Order.cs" />
@@ -80,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601160544002_Address_RemoveCustomerRelationship.resx">
       <DependentUpon>201601160544002_Address_RemoveCustomerRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601160737351_Added Product Count.resx">
+      <DependentUpon>201601160737351_Added Product Count.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
