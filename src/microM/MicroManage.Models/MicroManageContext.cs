@@ -13,10 +13,10 @@ namespace MicroManage.Models {
         public IDbSet<Customer> Customers { get; set; }
         public IDbSet<InventoryAudit> InventoryAudits { get; set; }
         public IDbSet<Order> Orders { get; set; }
+        public IDbSet<OrderProduct> OrderProducts { get; set; }
         public IDbSet<Product> Products { get; set; }
         public IDbSet<ProductInventory> ProductInventories { get; set; }
         public IDbSet<Category> Categories { get; set; }
-        public IDbSet<Category> OrderProducts { get; set; }
         public MicroManageContext()
             : base("name=MicroManageContext") {
 

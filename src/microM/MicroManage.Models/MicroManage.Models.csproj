@@ -76,8 +76,13 @@
     <Compile Include="Migrations\201601161157201_Added CategoryId Field to Product.Designer.cs">
       <DependentUpon>201601161157201_Added CategoryId Field to Product.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601161353549_Added OrderProducts Table.cs" />
+    <Compile Include="Migrations\201601161353549_Added OrderProducts Table.Designer.cs">
+      <DependentUpon>201601161353549_Added OrderProducts Table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelBase.cs" />
+    <Compile Include="OrderProduct.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductInventory.cs" />
@@ -102,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601161157201_Added CategoryId Field to Product.resx">
       <DependentUpon>201601161157201_Added CategoryId Field to Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601161353549_Added OrderProducts Table.resx">
+      <DependentUpon>201601161353549_Added OrderProducts Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
