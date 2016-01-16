@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
+using MicroM.Models;
 
 namespace MicroM.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : _MicroController
     {
         public ActionResult Index()
         {
@@ -25,7 +26,6 @@ namespace MicroM.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
