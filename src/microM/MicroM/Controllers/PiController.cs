@@ -88,7 +88,7 @@ namespace MicroM.Controllers
         private void RemoveInventroyProduct(int productId, string serialId)
         {
             //find record with productid and change productinventory field to sold = 3
-            ProductInventory product = _db.ProductInventories.FirstOrDefault(m => m.ProductId == productId);
+            ProductInventory product = _db.ProductInventories.FirstOrDefault(m => m.SerialId == serialId);
             product.Status = InventoryStatus.Sold;
 
             //save changes
