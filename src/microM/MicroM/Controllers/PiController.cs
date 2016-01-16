@@ -33,7 +33,9 @@ namespace MicroM.Controllers
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
-            var inventoryService = new InventoryService(_db, notifierService);
+            var auditService = new AuditService(_db);
+            var productService = new ProductService(_db);
+            var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
             await Task.Run(() => inventoryService.AddInventoryProduct(message.ProductId, message.SerialId));
 
@@ -43,7 +45,9 @@ namespace MicroM.Controllers
         public async Task<JsonResult> RemoveInventory(InventoryUpdateMessage message) {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
-            var inventoryService = new InventoryService(_db, notifierService);
+            var auditService = new AuditService(_db);
+            var productService = new ProductService(_db);
+            var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
             await Task.Run(() => inventoryService.RemoveInventoryProduct(message.ProductId, message.SerialId));
 

@@ -12,13 +12,16 @@ namespace MicroM.Services
     {
         public MicroManageContext Context { get; private set; }
         public INotifierService NotifierService { get; private set; }
-        //public IAuditService AuditService { get; private set; }
+        public IAuditService AuditService { get; private set; }
+        public IProductService ProductService { get; private set; }
 
         private int GetProductCount(int productId) => this.Context.ProductInventories.Count(p => p.ProductId == productId && p.Status == InventoryStatus.InStock);
 
-        public InventoryService(MicroManageContext context, INotifierService notifierService) {
+        public InventoryService(MicroManageContext context, INotifierService notifierService, IAuditService auditService, IProductService productService) {
             this.Context = context;
             this.NotifierService = notifierService;
+            this.AuditService = auditService;
+            this.ProductService = productService;
         }
 
         public async void RemoveInventoryProduct(int productId, string serialId) {
@@ -65,6 +68,14 @@ namespace MicroM.Services
             this.Context.ProductInventories.Attach(inventoryEntry);
             this.Context.Entry(inventoryEntry).State = EntityState.Modified;
             await this.Context.SaveChangesAsync();
+
+            this.AuditService.AppendAuditEntry(new InventoryAudit {
+                EventDate = DateTime.Now,
+                Inventory = inventoryEntry,
+                InventoryId = inventoryEntry.Id,
+                OldStatus = oldStatus,
+                NewStatus = inventoryEntry.Status
+            });
 
             new ProductService(this.Context).UpdateProductCount(inventoryEntry.ProductId, GetProductCount(inventoryEntry.ProductId));
 

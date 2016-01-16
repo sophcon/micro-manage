@@ -7,7 +7,14 @@ using System.Web;
 
 namespace MicroM.Services
 {
-    public class ProductService
+    public interface IProductService
+    {
+        void CreateProduct(Product product);
+        void EditProduct(Product product);
+        List<Product> GetProducts();
+        void UpdateProductCount(int productId, int count);
+    }
+    public class ProductService : IProductService
     {
         public MicroManageContext Context { get; private set; }        
 
