@@ -18,6 +18,20 @@ namespace MicroM.Controllers
         {
             return PartialView();
         }
+        public PartialViewResult _Edit(int id)
+        {
+
+            return PartialView(_service.GetProduct(id));
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> _Edit(Product cat)
+        {
+            await Task.Run(() => _service.EditProduct(cat));
+            return Json(true);
+        }
+
 
         [HttpPost]
         public async Task<JsonResult> _Create(Product product)

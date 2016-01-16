@@ -1,0 +1,15 @@
+﻿@model MicroManage.Models.Product
+
+@using (Html.BeginForm("_Edit", "Products", FormMethod.Post, new { @id = "EditForm" }))
+{
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        <label>Name</label>
+        @Html.TextBox("NameEdit", Model.Name, new { @class = "form-control", @placeholder = "name", @id = "NameEdit" })
+    </div>
+    <div class="form-group">
+        <label>Category</label>
+        @Html.TextBox("CategoryEdit", Model.CategoryId, new { @class = "form-control", @placeholder = "name", @id = "CategoryEdit" })
+    </div>
+}

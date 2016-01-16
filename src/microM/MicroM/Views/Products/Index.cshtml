@@ -4,5 +4,96 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Products</h2>
-@Html.Action("_List")
+<button onclick="showCreate()" class="btn btn-primary">add</button>
+<div id="list">
+    @Html.Action("_List")
+</div>
 
+
+    <div class="modal fade" id="addProduct" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Create New Product</h4>
+                </div>
+                <div id="create" class="modal-body">
+                    @Html.Action("_Create")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="CreateProduct()">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="editProduct" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Product</h4>
+                </div>
+                <div id="edit" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="editProduct()">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+
+
+    <script>
+        function showCreate() { $("#addProduct").modal('show'); }
+
+        function CreateProduct() {
+            var values = { name: $("#Name").val(), category: $("#Category").val() }
+            $.ajax({
+                url: "../../Products/_Create",
+                type: "POST",
+                data: values,
+                success: function (result) {
+                    if (result) {
+                        //refresh list
+                        $("#addProduct").modal('hide');
+                        $("#list").load("../../Products/_List");
+                        $("#Name").val('');
+                        $("#Category").val('');
+                    }
+                }
+            });
+        }
+
+        function showEdit(id) {
+            $("#edit").load("../../Products/_Edit/" + id, function () {
+                $("#editProduct").modal('show');
+            });
+        }
+
+        function editProduct() {
+            var values = {
+                Id: $("#Id").val(),
+                Name: $("#NameEdit").val(),
+                category: $("#CategoryEdit").val(),
+            }
+
+            $.ajax({
+                url: "../../Products/_Edit",
+                type: "POST",
+                data: values,
+                success: function () {
+                    $("#edit").html('');
+                    $("#editProduct").modal('hide');
+                    $("#list").load("../../Products/_List");
+                }
+            });
+        }
+
+
+    </script>

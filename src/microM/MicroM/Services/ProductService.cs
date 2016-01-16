@@ -33,6 +33,11 @@ namespace MicroM.Services
             return Context.Products.OrderBy(p=>p.Name).ToList();
         }
 
+        public Product GetProduct(int id)
+        {
+            return Context.Products.Find(id);
+        }
+
         public async void UpdateProductCount(int productId, int count) {
             //update product count
             Product product = Context.Products.Find(productId);
