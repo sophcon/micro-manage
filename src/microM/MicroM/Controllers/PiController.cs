@@ -31,7 +31,7 @@ namespace MicroM.Controllers
             string serialId = frm["serialId"];
             string action = frm["action"];
 
-            if (action == "ADD")
+            if (action == "ADD" || action == "add")
             {
                 AddInventoryProduct(productId, serialId);
             }
@@ -45,18 +45,47 @@ namespace MicroM.Controllers
 
         private void AddInventoryProduct(int productId, string serialId)
         {
-            //insert record into productinventory if it doesn't exist
+            //try find matching productinventory record by using serialid
+            ProductInventory pi = _db.ProductInventories.FirstOrDefault(m => m.SerialId == serialId);
 
-            //if the record already exists, change status to in stock = 1
+            if(pi!=null)
+            {
+                //if the record already exists, change status to in stock = 1
+                pi.Status = InventoryStatus.InStock;
 
+                //send to db
+                _db.ProductInventories.Attach(pi);
+                _db.Entry(pi).State = System.Data.Entity.EntityState.Modified;
+                _db.SaveChanges();
+            }
+            else
+            {
+                //insert record into productinventory if it doesn't exist
+                ProductInventory newPI = new ProductInventory();
+                newPI.ProductId = productId;
+                newPI.SerialId = serialId;
+                newPI.Status = InventoryStatus.InStock;
 
+                //send to db
+                _db.ProductInventories.Add(newPI);
+                _db.SaveChanges();
+            }
+
+            //init change model
+            ProductInventoryChangeViewModel change = new ProductInventoryChangeViewModel();
+            change.ProductId = productId;
+
+            //get count
+            change.Count = _db.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count();
+
+            //send signalr notification of invetory change
+            SendProductInventoryChange(change);
         }
 
         private void RemoveInventroyProduct(int productId, string serialId)
         {
             //find record with productid and change productinventory field to sold = 3
             ProductInventory product = _db.ProductInventories.FirstOrDefault(m => m.ProductId == productId);
-
             product.Status = InventoryStatus.Sold;
 
             //save changes
@@ -64,8 +93,15 @@ namespace MicroM.Controllers
             _db.Entry(product).State = System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
 
+            //init change model
+            ProductInventoryChangeViewModel change = new ProductInventoryChangeViewModel();
+            change.ProductId = productId;
+
+            //get count
+            change.Count = _db.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count();
+
             //send signalr notification of invetory change
-            
+            SendProductInventoryChange(change);
         }
 
         private void SendProductInventoryChange(ProductInventoryChangeViewModel change)
