@@ -1,0 +1,49 @@
+﻿@model List<MicroManage.Models.Category>
+
+<table class="table table-condensed table-responsive">
+    <thead>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td><strong>Status</strong></td>
+            <td><strong>Action</strong></td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Any())
+        {
+            foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.Name</td>
+                    <td>
+                        @if (i.IsActive == true)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Inactive</span>
+                        }
+
+                    </td>
+                    <td>
+                        <span class="glyphicon glyphicon-edit micro-icon" onclick="showEdit(@i.Id)" style="cursor:pointer;" title="Edit"></span>
+                        @if (i.IsActive == true)
+                        {
+                            <span class="glyphicon glyphicon-thumbs-down micro-icon" onclick="inactivate(@i.Id)" style="cursor:pointer;" title="Inactivate"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-thumbs-up micro-icon" onclick="activate(@i.Id)" style="cursor:pointer;" title="Activate"></span>
+                        }
+                        
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+
+</table>
+

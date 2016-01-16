@@ -1,4 +1,4 @@
-﻿@model List<MicroManage.Models.Category>
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,46 +6,44 @@
 
 <h3>Categories</h3>
 
-<button class="btn btn-primary" onclick="addCategories()">Add</button>
-    <table class="table table-condensed table-responsive">
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td>Active</td>
-                <td>Action</td>
-            </tr>
-        </thead>
-        <tbody>
+<button class="btn btn-primary" onclick="showCreate()">Add</button>
 
-@if (Model.Any())
-{
-    foreach (var i in Model)
-    {
-            <tr>
-                <td>@i.Name</td>
-                <td>@i.IsActive</td>
-                <td><span class="glyphicon glyphicon-pencil"></span><span class="glyphicon glyphicon-edit"></span><span class="glyphicon glyphicon-trash"></span></td>
+<div id="list">
+    @Html.Action("_List")
+</div>
 
-            </tr>
-    }
-}
-        </tbody>
 
-    </table>
-
-<div class="modal fade" id="loadCategories" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+<div class="modal fade" id="AddCategory" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title">Create New Category</h4>
             </div>
-            <div class="modal-body">
-                <p>One fine body&hellip;</p>
+            <div id="create" class="modal-body">
+                @Html.Action("_Create")
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="addCategory()">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="EditCategory" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Category</h4>
+            </div>
+            <div id="edit" class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editCategory()">Save changes</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -53,10 +51,67 @@
 
 
 <script>
-    function addCategories() {
-        $('#loadCategories').modal({
-            show: true,
+    function showCreate() { $("#AddCategory").modal('show'); }
 
+    function addCategory() {
+        var values = { name: $("#Name").val() }
+        $.ajax({
+            url: "../../Categories/_Create",
+            type: "POST",
+            data: values,
+            success: function (result) {
+                if (result) {
+                    //refresh list
+                    $("#AddCategory").modal('hide');
+                    $("#list").load("../../Categories/_List");
+                    $("#Name").val('');
+                }
+            }
         });
     }
+    
+    function showEdit(id) {
+        $("#edit").load("../../Categories/_Edit/" + id,function () {
+            $("#EditCategory").modal('show');
+        });
+    }
+
+    function editCategory() {
+        var values = {
+            Id: $("#Id").val(),
+            Name: $("#NameEdit").val()
+        }
+
+        $.ajax({
+            url: "../../Categories/_Edit",
+            type: "POST",
+            data: values,
+            success: function () {
+                $("#edit").html('');
+                $("#EditCategory").modal('hide');
+                $("#list").load("../../Categories/_List");
+            }
+        });
+    }
+
+    function activate(id) {
+        $.ajax({
+            url: "../../Categories/Activate/" + id,
+            type: "GET",
+            success: function () {
+                $("#list").load("../../Categories/_List");
+            }
+        });
+    }
+
+    function inactivate(id) {
+        $.ajax({
+            url: "../../Categories/Inactivate/" + id,
+            type: "GET",
+            success: function () {
+                $("#list").load("../../Categories/_List");
+            }
+        });
+    }
+
 </script>

@@ -21,27 +21,29 @@ namespace MicroM.Controllers
         }
 
         [HttpGet]
-        public ActionResult RegisterNewItem()
+        public ActionResult AddInventory()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<JsonResult> RegisterNewItem(FormCollection frm)
+        public async Task<JsonResult> AddInventory(InventoryUpdateMessage message)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
             var inventoryService = new InventoryService(_db, notifierService);
 
-            int productId = int.Parse(frm["productId"]);
-            string serialId = frm["serialId"];
-            string action = frm["action"];
+            await Task.Run(() => inventoryService.AddInventoryProduct(message.ProductId, message.SerialId));
 
-            if (action == "ADD" || action == "add") {
-                await Task.Run(() => inventoryService.AddInventoryProduct(productId, serialId));
-            } else {
-                await Task.Run(() => inventoryService.RemoveInventoryProduct(productId, serialId));
-            }
+            return Json(true);
+        }
+
+        public async Task<JsonResult> RemoveInventory(InventoryUpdateMessage message) {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
+            var notifierService = new NotifierService(hubContext);
+            var inventoryService = new InventoryService(_db, notifierService);
+
+            await Task.Run(() => inventoryService.RemoveInventoryProduct(message.ProductId, message.SerialId));
 
             return Json(true);
         }

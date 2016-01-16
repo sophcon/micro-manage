@@ -50,7 +50,17 @@ namespace MicroM.Services
 
         public List<Category> GetActiveCategories()
         {
-            return Context.Categories.Where(c => c.IsActive == true).ToList();             
+            return Context.Categories.Where(c => c.IsActive == true).OrderBy(c => c.Name).ToList();             
+        }
+
+        public List<Category> GetCategories()
+        {
+            return Context.Categories.OrderBy(c=>c.Name).ToList();
+        }
+
+        public Category GetCategory(int id)
+        {
+            return Context.Categories.Find(id);
         }
 
         public async void InactivateCategory(int CategoryId)
