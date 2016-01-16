@@ -294,10 +294,11 @@
     <Content Include="Views\Categories\_List.cshtml" />
     <Content Include="Views\Categories\_Create.cshtml" />
     <Content Include="Views\Categories\_Edit.cshtml" />
+    <Content Include="Views\Products\_List.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Products\" />
     <Folder Include="Views\_Micro\" />
   </ItemGroup>
   <ItemGroup>
