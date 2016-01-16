@@ -5,10 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
+using MicroM.Models;
+using MicroManage.Models;
 
 namespace MicroM.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : _MicroController
     {
         public ActionResult Index()
         {
@@ -25,8 +27,24 @@ namespace MicroM.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
+        }
+
+        public PartialViewResult List()
+        {
+
+            
+            return PartialView();
+        }
+
+        [HttpGet]
+        public JsonResult Product()
+        {
+            List<Product> product = new List<Product>();
+            product = _db.Products.ToList();
+
+          return Json(product,JsonRequestBehavior .AllowGet);
+            
         }
 
         [HttpGet]

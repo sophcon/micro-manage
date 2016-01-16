@@ -1,0 +1,15 @@
+﻿@model List<MicroManage.Models.Category>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Categories</h3>
+
+@if (Model.Any())
+{
+    foreach(var i in Model)
+    {
+        <p>@i.Name</p>
+    }
+}
