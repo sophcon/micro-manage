@@ -15,6 +15,11 @@ namespace MicroM.Services
             this.Context = context;
         }
 
+        public List<Product> GetProducts()
+        {
+            return Context.Products.ToList();
+        }
+
         public async void UpdateProductCount(int productId, int count) {
             //update product count
             Product product = Context.Products.Find(productId);
