@@ -10,12 +10,23 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="product in products">
+        <tr  ng-repeat="product in products">
             <td>{{product.Name}}</td>
             <td>{{product.WebAvailble}}</td>
             <td>{{product.Price}}</td>
-            <td>{{product.Count}}</td>
+            <td animate-On-Change="product.Count">{{product.Count}}</td>
         </tr>
     </tbody>
 </table>
-<div ></div>
+<style>
+[animate-on-change] {
+  transition: all 1s;
+  -webkit-transition: all 1s;
+}
+[animate-on-change].changed {
+    background-color: red;
+    transition: none;
+    -webkit-transition: none;
+}
+</style>
+

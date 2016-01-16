@@ -3,22 +3,7 @@
 
 
     console.log($scope.products);
-    $scope.send = function () {
 
-       
-        console.log($scope.message);
-        $.ajax({
-            url: "../../Home/SignalRTest",
-            type: "POST",
-            data: {message:$scope.message},
-            success: function (data) {
-                console.log("message sent: ", data);
-            },
-            error: function () {
-                console.log("error happened sending test");
-            }
-        });
-}
 
 
 
@@ -26,7 +11,16 @@
       var hub = con.createHubProxy("microHub");
 
       hub.on("productUpdate", function (message) {
-          console.log(message);
+          $.each($scope.products, function (i, val) {
+              if (val.Id === message.ProductId) {
+                  $scope.products[i].Count = message.Count;
+                  $scope.$apply()
+                  return false;
+                  
+              }
+          })
+          
+          return true;
           
       });
 
@@ -42,4 +36,15 @@
     
 
 
-}])
+}]).directive('animateOnChange', function ($timeout) {
+    return function (scope, element, attr) {
+        scope.$watch(attr.animateOnChange, function (nv, ov) {
+            if (nv != ov) {
+                element.addClass('changed');
+                $timeout(function () {
+                    element.removeClass('changed');
+                }, 1000);
+            }
+        });
+    };
+});
