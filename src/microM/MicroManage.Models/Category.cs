@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MicroManage.Models
 {
-    public class ModelBase
+    public class Category : ModelBase
     {
-        [Key]
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
     }
 }
