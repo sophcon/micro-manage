@@ -316,10 +316,10 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\_Create.cshtml" />
     <Content Include="Views\Products\_Edit.cshtml" />
+    <Content Include="Views\Bins\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Bins\" />
     <Folder Include="Views\_Micro\" />
   </ItemGroup>
   <ItemGroup>
