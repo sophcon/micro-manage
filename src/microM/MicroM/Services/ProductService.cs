@@ -9,15 +9,28 @@ namespace MicroM.Services
 {
     public class ProductService
     {
-        public MicroManageContext Context { get; private set; }
+        public MicroManageContext Context { get; private set; }        
 
         public ProductService (MicroManageContext context) {
             this.Context = context;
         }
 
+        public async void CreateProduct(Product product)
+        {
+            Context.Products.Add(product);
+            await Context.SaveChangesAsync();
+        }
+
+        public async void EditProduct(Product product)
+        {
+            Context.Products.Attach(product);
+            Context.Entry(product).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
+        }
+
         public List<Product> GetProducts()
         {
-            return Context.Products.ToList();
+            return Context.Products.OrderBy(p=>p.Name).ToList();
         }
 
         public async void UpdateProductCount(int productId, int count) {

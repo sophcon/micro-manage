@@ -9,6 +9,7 @@ using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
 using MicroM.Services;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 
 namespace MicroM.Controllers
 {
@@ -27,6 +28,7 @@ namespace MicroM.Controllers
         }
 
         [HttpPost]
+        [EnableCors("*", "*", "*")]
         public async Task<JsonResult> AddInventory(InventoryUpdateMessage message)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
