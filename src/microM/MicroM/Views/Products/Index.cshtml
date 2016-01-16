@@ -47,7 +47,7 @@
     </div>
 
     <script>
-        var catList;
+        var catList=[];
 
         function showCreate() {
             $("#addProduct").modal('show');
@@ -96,12 +96,15 @@
             });
         }
 
-        function getCatName(id) {
-            console.log("getCatName id:", id);
-           
-            $.each(catList, function(val) {
-                console.log(val);
+        function getCatName(id) {            
+            var name;
+            $.each(catList,function(i,val) {
+                if (val.Id == id) {
+                    name = val.Name;
+                    return false;
+                }
             });
+            return name;
         }
 
         $(function () {
@@ -113,8 +116,12 @@
                     //loop thorough
                     $(".cat").each(function () {
                         var catid = parseInt($(this).attr('mm'));
-                        console.log("category name:", getCatName(catid));
                         $(this).text(getCatName(catid));
+                    });
+
+                    //populate selectList
+                    $.each(catList, function (i, val) {
+                        $("#CategorySelect").append("<option value='" + val.Id + "'>" + val.Name + "</option>");
                     });
                 }
             });
