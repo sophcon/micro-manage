@@ -12,5 +12,11 @@ namespace MicroM.Services
         public BinService(MicroManageContext context) {
             this.Context = context;
         }
+        public IQueryable<Bin> GetBinsForSite(string site) {
+            return this.Context.Bins.Where(b => b.Site.Equals(site));
+        }
+        public IQueryable<Bin> GetBins() {
+            return this.Context.Bins;
+        }
     }
 }
