@@ -13,6 +13,7 @@ using System.Web.Http.Cors;
 
 namespace MicroM.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class PiController : _MicroController
     {
         [HttpPost]
@@ -28,7 +29,6 @@ namespace MicroM.Controllers
         }
 
         [HttpPost]
-        [EnableCors("*", "*", "*")]
         public async Task<JsonResult> AddInventory(InventoryUpdateMessage message)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
