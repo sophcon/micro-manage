@@ -31,8 +31,19 @@
           //hub.invoke("MethodNameOnHub");
       });
 
-
-    
+      $scope.addProduct = function () {
+          console.log($scope.serial);
+          console.log($scope.selected);
+          $.ajax({
+              url: "../../Pi/AddInventory",
+              type: "POST",
+              data: {
+                  serialId: $scope.serial,
+                  productId: $scope.selected,
+              }
+          });
+      }
+      
 
 
 }]).directive('animateOnChange', function ($timeout) {
