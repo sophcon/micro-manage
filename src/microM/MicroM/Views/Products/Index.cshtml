@@ -46,11 +46,12 @@
         </div><!-- /.modal-dialog -->
     </div>
 
-
-
-
     <script>
-        function showCreate() { $("#addProduct").modal('show'); }
+        var catList;
+
+        function showCreate() {
+            $("#addProduct").modal('show');
+        }
 
         function CreateProduct() {
             var values = { name: $("#Name").val(), category: $("#Category").val() }
@@ -95,5 +96,28 @@
             });
         }
 
+        function getCatName(id) {
+            console.log("getCatName id:", id);
+           
+            $.each(catList, function(val) {
+                console.log(val);
+            });
+        }
+
+        $(function () {
+            $.ajax({
+                url: "../../Categories/GetList",
+                type: "GET",
+                success: function (result) {
+                    catList = result;
+                    //loop thorough
+                    $(".cat").each(function () {
+                        var catid = parseInt($(this).attr('mm'));
+                        console.log("category name:", getCatName(catid));
+                        $(this).text(getCatName(catid));
+                    });
+                }
+            });
+        });
 
     </script>

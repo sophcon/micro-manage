@@ -76,6 +76,12 @@ namespace MicroM.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetList()
+        {
+            return Json(_service.GetCategories(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public async Task<JsonResult> Inactivate(int id)
         {
             await Task.Run(()=>_service.InactivateCategory(id));

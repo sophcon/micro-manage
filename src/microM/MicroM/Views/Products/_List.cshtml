@@ -9,30 +9,28 @@
         </tr>
     </thead>
     <tbody>
-@if (Model != null)
-{
-        if (Model.Any())
+        @if (Model != null)
         {
-            foreach (var i in Model)
+            if (Model.Any())
             {
-                <tr>
-                    <td>@i.Name</td>
-                    <td>
-                        @i.CategoryId
-                    </td>
-                    <td>
-                        <span class="glyphicon glyphicon-edit micro-icon" onclick="showEdit(@i.Id)" style="cursor:pointer;" title="Edit"></span>
-                    </td>
-
-                </tr>
+                foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@i.Name</td>
+                        <td>
+                            <span class="cat" mm="@i.CategoryId"></span>
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-edit micro-icon" onclick="showEdit(@i.Id)" style="cursor:pointer;" title="Edit"></span>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>nothing</tr>
             }
         }
-        else
-        {
-            <tr>nothing</tr>
-        }
-}
-
     </tbody>
 
 </table>
