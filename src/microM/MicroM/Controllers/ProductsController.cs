@@ -29,21 +29,20 @@ namespace MicroM.Controllers
             product.Count = 0;
             product.WebAvailable = false;
             product.Description = frm["description"];
-            await Task.Run(() => _service.CreateProduct(product));
+            await Task.Run(() => ProductService.CreateProduct(product));
             return Json(true);
         }
 
+        [HttpGet]
         public PartialViewResult _Edit(int id)
         {
-            return PartialView(_service.GetProduct(id));
-            await Task.Run(() => this.ProductService.EditProduct(cat));
-            return Json(true);
+            return PartialView(ProductService.GetProduct(id));
         }
 
         [HttpPost]
         public async Task<JsonResult> _Edit(Product product)
         {
-            await Task.Run(() => _service.EditProduct(product));
+            await Task.Run(() => ProductService.EditProduct(product));
             return Json(true);
         }
 

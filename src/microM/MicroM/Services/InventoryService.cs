@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace MicroM.Services
@@ -47,11 +48,11 @@ namespace MicroM.Services
             this.NotifierService.SendProductInventoryChange(change);
         }
 
-        public ProductInventory GetInventoryBySerialId(string serialId) =>
-            Context.ProductInventories.FirstOrDefault(m => m.SerialId == serialId);
+        public async Task<ProductInventory> GetInventoryBySerialIdAsync(string serialId) =>
+            await Context.ProductInventories.FirstOrDefaultAsync(m => m.SerialId == serialId);
 
-        public void AddInventoryProduct(int binId, string serialId) {
-            var pi = GetInventoryBySerialId(serialId);
+        public async void AddInventoryProduct(int binId, string serialId) {
+            ProductInventory pi = await GetInventoryBySerialIdAsync(serialId);
 
             if (pi == null) {
                 throw new ArgumentOutOfRangeException(nameof(serialId), $"The system cannot locate an inventory entry for serial id '{serialId}'.");
@@ -69,15 +70,13 @@ namespace MicroM.Services
             this.Context.Entry(inventoryEntry).State = EntityState.Modified;
             await this.Context.SaveChangesAsync();
 
-            this.AuditService.AppendAuditEntry(new InventoryAudit {
+            await this.AuditService.AppendAuditEntryAsync(new InventoryAudit {
                 EventDate = DateTime.Now,
                 Inventory = inventoryEntry,
                 InventoryId = inventoryEntry.Id,
                 OldStatus = oldStatus,
                 NewStatus = inventoryEntry.Status
             });
-
-            this.ProductService.UpdateProductCount(inventoryEntry.ProductId, GetProductCount(inventoryEntry.ProductId));
 
             this.NotifierService.SendProductInventoryChange(
                 new InventorySummary {
