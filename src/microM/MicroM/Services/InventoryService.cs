@@ -77,7 +77,7 @@ namespace MicroM.Services
                 NewStatus = inventoryEntry.Status
             });
 
-            new ProductService(this.Context).UpdateProductCount(inventoryEntry.ProductId, GetProductCount(inventoryEntry.ProductId));
+            this.ProductService.UpdateProductCount(inventoryEntry.ProductId, GetProductCount(inventoryEntry.ProductId));
 
             this.NotifierService.SendProductInventoryChange(
                 new InventorySummary {
