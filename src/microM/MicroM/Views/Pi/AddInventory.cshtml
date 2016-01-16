@@ -1,4 +1,4 @@
-﻿
+﻿@model MicroM.Models.InventoryUpdateMessage
 @{
     ViewBag.Title = "RegisterNewItem";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,26 +14,19 @@
     <div class="form-group">
         @Html.TextBox("ProductId", null, new { @class = "form-control", @placeholder = "product" })
     </div>
-    <div class="form-group">
-        @Html.TextBox("Action", null, new { @class = "form-control", @placeholder = "action" })
-    </div>
     <input type="button" value="send" onclick="sendAction()" class="btn btn-primary"/>
 }
 
 
 <script>
     function sendAction() {
-
-        var values = {
-            serialId: $("#SerialId").val(),
-            productId: $("#ProductId").val(),
-            action: $("#Action").val()
-        }
-
         $.ajax({
-            url: "../../Pi/RegisterNewItem",
+            url: "../../Pi/AddInventory",
             type: "POST",
-            data: values
+            data: {
+                serialId: $("#SerialId").val(),
+                productId: $("#ProductId").val(),
+            }
         });
     }
 </script>

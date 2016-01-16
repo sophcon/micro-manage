@@ -275,7 +275,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\SignalRTest.cshtml" />
-    <Content Include="Views\Pi\RegisterNewItem.cshtml" />
+    <Content Include="Views\Pi\AddInventory.cshtml" />
     <Content Include="Views\Home\List.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
   </ItemGroup>

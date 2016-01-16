@@ -21,7 +21,7 @@ namespace MicroM.Controllers
         }
 
         [HttpGet]
-        public ActionResult RegisterNewItem()
+        public ActionResult AddInventory()
         {
             return View();
         }
