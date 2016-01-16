@@ -13,7 +13,7 @@
         <tr  ng-repeat="product in products">
             <td>{{product.Name}}</td>
             <td>{{product.WebAvailble}}</td>
-            <td>{{product.Price}}</td>
+            <td>{{product.Price | currency}}</td>
             <td animate-On-Change="product.Count">{{product.Count}}</td>
         </tr>
     </tbody>
