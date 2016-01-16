@@ -2,7 +2,7 @@
     $scope.products = product;
 
 
-
+    console.log($scope.products);
     $scope.send = function () {
 
        
@@ -26,7 +26,7 @@
       var hub = con.createHubProxy("microHub");
 
       hub.on("productUpdate", function (message) {
-          console.log("test event called data:", message);
+          console.log(message);
           
       });
 
