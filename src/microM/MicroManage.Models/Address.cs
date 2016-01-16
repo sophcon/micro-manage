@@ -13,8 +13,6 @@ namespace MicroManage.Models
         public string City { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
-        [ForeignKey("Customer")]
         public int CustomerID { get; set; }
-        public virtual Customer Customer { get; set; }
     }
 }
