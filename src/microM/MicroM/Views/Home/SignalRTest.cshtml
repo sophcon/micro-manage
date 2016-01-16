@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "SignalRTest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/realtime")
+
+<h2>SignalRTest</h2>
+
+<div id="sContainer">
+
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.TextBox("Message")
+    <input type="button" onclick="sendTest()" value="send test" />
+}
