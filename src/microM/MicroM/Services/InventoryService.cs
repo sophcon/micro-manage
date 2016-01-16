@@ -65,12 +65,13 @@ namespace MicroM.Services
             if (inventoryEntry != null) {
                 throw new Exception("Serial Id is already in used");
             }
-
-            this.Context.ProductInventories.Add(new ProductInventory {
+            inventoryEntry = new ProductInventory
+            {
                 ProductId = Id,
                 SerialId = serialId,
                 Status = InventoryStatus.InStock
-            });
+            };
+            this.Context.ProductInventories.Add(inventoryEntry);
 
             await this.Context.SaveChangesAsync();
             await PostSaveAsync(inventoryEntry, inventoryEntry.Status);
