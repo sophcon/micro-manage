@@ -2,6 +2,7 @@
 using MicroManage.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,8 @@ namespace MicroM.Services
     {
         public MicroManageContext Context { get; private set; }
         public INotifierService NotifierService { get; private set; }
+
+        private int GetProductCount(int productId) => this.Context.ProductInventories.Count(p => p.ProductId == productId && p.Status == InventoryStatus.InStock);
 
         public InventoryService(MicroManageContext context, INotifierService notifierService) {
             this.Context = context;
@@ -30,7 +33,7 @@ namespace MicroM.Services
             //init change model
             var change = new InventorySummary {
                 ProductId = productId,
-                Count = this.Context.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count()
+                Count = GetProductCount(productId)
             };
 
             //set product count
@@ -50,27 +53,26 @@ namespace MicroM.Services
 
                 //send to db
                 this.Context.ProductInventories.Attach(pi);
-                this.Context.Entry(pi).State = System.Data.Entity.EntityState.Modified;
+                this.Context.Entry(pi).State = EntityState.Modified;
                 await this.Context.SaveChangesAsync();
             }
             else {
-                //insert record into productinventory if it doesn't exist
-                ProductInventory newPI = new ProductInventory();
-                newPI.ProductId = productId;
-                newPI.SerialId = serialId;
-                newPI.Status = InventoryStatus.InStock;
-
                 //send to db
-                this.Context.ProductInventories.Add(newPI);
-                this.Context.SaveChanges();
+                this.Context.ProductInventories.Add(
+                    new ProductInventory {
+                        ProductId = productId,
+                        SerialId = serialId,
+                        Status = InventoryStatus.InStock
+                    });
+
+                await this.Context.SaveChangesAsync();
             }
 
             //init change model
-            InventorySummary change = new InventorySummary();
-            change.ProductId = productId;
-
-            //get count
-            change.Count = this.Context.ProductInventories.Where(m => m.ProductId == productId && m.Status == InventoryStatus.InStock).Count();
+            var change = new InventorySummary {
+                ProductId = productId,
+                Count = GetProductCount(productId)
+            };
 
             //set product count
             new ProductService(this.Context).UpdateProductCount(productId, change.Count);
