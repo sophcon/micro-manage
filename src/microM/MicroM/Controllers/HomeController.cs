@@ -29,6 +29,11 @@ namespace MicroM.Controllers
             return View();
         }
 
+        public PartialViewResult List()
+        {
+            return PartialView();
+        }
+
         [HttpGet]
         public ActionResult SignalRTest()
         {

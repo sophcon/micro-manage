@@ -5,11 +5,14 @@
     $stateProvider.state('List', {
         url: '/',
         templateUrl: 'List',
-        controller: 'listCtrl'
-        //resolve: {
-        //    products: ['$http', function ($http) {
-        //        return $h
-        //    }]
-        //}
+        controller: 'listCtrl',
+        resolve: {
+            product: ['$http', function ($http) {
+                return $http.get('../../Test/Data').then(function (response) {
+                    return response.data;
+                })
+            }]
+        }
+
     })
 }])
