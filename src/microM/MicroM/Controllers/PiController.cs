@@ -29,7 +29,7 @@ namespace MicroM.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddInventory(InventoryUpdateMessage message)
+        public async Task<JsonResult> AdjustInventory(InventoryUpdateMessage message)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
@@ -37,7 +37,7 @@ namespace MicroM.Controllers
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            await Task.Run(() => inventoryService.AddInventoryProduct(message.ProductId, message.SerialId));
+            await inventoryService.UpdateInventory(message.ProductId, message.SerialId);
 
             return Json(true);
         }
@@ -53,18 +53,17 @@ namespace MicroM.Controllers
             await inventoryService.AddSerializedItem(message.ProductId, message.SerialId);
 
             return Json(true);
-
-
         }
 
-        public async Task<JsonResult> RemoveInventory(InventoryUpdateMessage message) {
+        [HttpPost]
+        public async Task<JsonResult> ReduceInventory(InventoryUpdateMessage message) {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
             var auditService = new AuditService(_db);
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            await Task.Run(() => inventoryService.RemoveInventoryProduct(message.ProductId, message.SerialId));
+            await inventoryService.RemoveInventoryProduct(message.ProductId, message.SerialId);
 
             return Json(true);
         }
