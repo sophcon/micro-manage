@@ -25,7 +25,7 @@
       var con = $.hubConnection();
       var hub = con.createHubProxy("microHub");
 
-      hub.on("testEvent", function (message) {
+      hub.on("productUpdate", function (message) {
           console.log("test event called data:", message);
           
       });
