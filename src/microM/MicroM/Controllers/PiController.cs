@@ -75,5 +75,21 @@ namespace MicroM.Controllers
 
             return Json(true);
         }
+
+        public ActionResult testView()
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
+            var notifierService = new NotifierService(hubContext);
+            var auditService = new AuditService(_db);
+            var productService = new ProductService(_db);
+            var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
+
+            
+
+            inventoryService.AllocateInventoryItem(message.SerialId);
+
+            return View();
+        }
+
     }
 } 

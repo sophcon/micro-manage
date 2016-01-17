@@ -49,7 +49,11 @@ namespace MicroM.Controllers
         {
             return View(BinService.GetBins());
         }
-
+        [HttpGet]
+        public JsonResult GetBins()
+        {
+            return Json(BinService.GetBins(), JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
