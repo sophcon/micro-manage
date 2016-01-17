@@ -1,6 +1,6 @@
 ﻿@model MicroManage.Models.Bin
 
-@using (Html.BeginForm("_Create", "Bins", FormMethod.Post, new { @id = "EditForm" }))
+@using (Html.BeginForm("_Edit", "Bins", FormMethod.Post, new { @id = "EditForm" }))
 {
     @Html.HiddenFor(b=>b.Id)
     <div class="form-group">

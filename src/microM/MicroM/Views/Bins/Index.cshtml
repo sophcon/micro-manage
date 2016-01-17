@@ -13,7 +13,7 @@
     <ul>
         @foreach(var i in Model)
         {
-            <li>@i.Name</li>
+            <li>@i.Name <span class="glyphicon glyphicon-edit micro-icon" onclick="showEdit(@i.Id)" style="cursor:pointer"></span></li>
         }
     </ul>
 }
