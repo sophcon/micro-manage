@@ -29,6 +29,14 @@ namespace MicroM.Controllers
         }
 
         [HttpPost]
+        public async Task DispatchSerial(InventoryUpdateMessage message) {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
+            var notifierService = new NotifierService(hubContext);
+
+            //notifierService
+        }
+
+        [HttpPost]
         public async Task<JsonResult> AdjustInventory(InventoryUpdateMessage message)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
@@ -63,7 +71,7 @@ namespace MicroM.Controllers
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            await inventoryService.RemoveInventoryProduct(message.ProductId, message.SerialId);
+            await inventoryService.AllocateInventoryItem(message.SerialId);
 
             return Json(true);
         }

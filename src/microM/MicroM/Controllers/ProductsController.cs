@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using MicroM.Services;
 using System.Threading.Tasks;
 using MicroManage.Models;
+using MicroM.Hubs;
+using Microsoft.AspNet.SignalR;
+
 namespace MicroM.Controllers
 {
     public class ProductsController : _MicroController
@@ -48,9 +51,15 @@ namespace MicroM.Controllers
 
         [HttpGet]
         public PartialViewResult _List()
-        {            
+        {
             return PartialView(this.ProductService.GetProducts());
         }
+
+        [HttpGet]
+        public JsonResult GetProducts()
+        {
+            return Json(ProductService.GetProducts(), JsonRequestBehavior.AllowGet);
+        }  
         
         public ActionResult Index()
         {

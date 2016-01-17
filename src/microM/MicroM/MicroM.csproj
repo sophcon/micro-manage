@@ -318,6 +318,8 @@
     <Content Include="Views\Products\_Create.cshtml" />
     <Content Include="Views\Products\_Edit.cshtml" />
     <Content Include="Views\Bins\Index.cshtml" />
+    <Content Include="Views\Bins\_Create.cshtml" />
+    <Content Include="Views\Bins\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
