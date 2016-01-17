@@ -48,22 +48,26 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
                     angular.copy(nfcEvent.tag, tag);
                     var url = "";
                     var tagId = nfc.bytesToHexString(tag.id);
+                    var postData = { binId: 0, serialId: "" };
                     $.support.cors = true;
                     $.mobile.allowCrossDomainPages = true;
 
                     if($scope.selectedMode.id == 0) {
                         url = "http://micromanage.azurewebsites.net/pi/AdjustInventory";
+                        postData = { binId: $scope.selectedBin.id, serialId: tagId };
                     } else if($scope.selectedBinId == 1) {
                         url = "http://micromanage.azurewebsites.net/pi/ReduceInventory";
+                        postData = { binId: 0, serialId: tagId };
                     } else {
-                        //url = "http://micromanage.azurewebsites.net/pi/AddInventory";
+                        url = "http://micromanage.azurewebsites.net/pi/DispatchSerial";
+                        postData = { binId: $scope.selectedBin.id, serialId: tagId };
                     }
 
                     if(url != "") {
                         $.ajax({
                             url: url,
-                            type: "POST",
-                            data: { binId: $scope.selectedBin.id, serialId: tagId },
+                            type: "POST",a
+                            data: postData,
                             crossDomain: true,
                             dataType: 'application/json',
                             success: function(data) {
