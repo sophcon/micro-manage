@@ -20,7 +20,7 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
     .controller('MainController', function ($scope, $http, nfcService) {
 
         $scope.selectedBinId = null;
-        $scope.modeList = [ { id: 0, name: 'Adjust In' }, { id: 3, name: 'Adjust Out' }, { id: 2, name: 'Catalog' } ];
+        $scope.modeList = [ { id: 0, name: 'Adjust In' }, { id: 1, name: 'Adjust Out' }, { id: 2, name: 'Catalog' } ];
         $scope.binList = [1,2,3];
         $scope.selectedMode = $scope.modeList[0];
         $scope.tag = nfcService.tag;
@@ -48,20 +48,26 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
                     angular.copy(nfcEvent.tag, tag);
                     var url = "";
                     var tagId = nfc.bytesToHexString(tag.id);
-                    var postData = { binId: 0, serialId: "" };
+                    var binId = parseInt($('#selectedBin').text());
+                    var modeId = parseInt($('#selectedModeId').val());
+                    var postData = { productId: 0, binId: 0, serialId: "" };
                     $.support.cors = true;
                     $.mobile.allowCrossDomainPages = true;
-
-                    if($scope.selectedMode.id == 0) {
+                    //alert(binId);
+                    //alert(modeId);
+                    if(modeId == 0) {
                         url = "http://micromanage.azurewebsites.net/pi/AdjustInventory";
-                        postData = { binId: $scope.selectedBin.id, serialId: tagId };
-                    } else if($scope.selectedBinId == 1) {
+                        postData = { productId: 0, binId: binId, serialId: tagId };
+                    } else if(modeId == 1) {
                         url = "http://micromanage.azurewebsites.net/pi/ReduceInventory";
-                        postData = { binId: 0, serialId: tagId };
+                        postData = { productId: 0, binId: 0, serialId: tagId };
                     } else {
                         url = "http://micromanage.azurewebsites.net/pi/DispatchSerial";
-                        postData = { binId: $scope.selectedBin.id, serialId: tagId };
+                        postData = { productId: 0, binId: binId, serialId: tagId };
                     }
+
+                    //alert(url);
+                    //alert(JSON.stringify(postData));
 
                     if(url != "") {
                         $.ajax({
@@ -74,7 +80,7 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
 
                             },
                             error: function(e) {
-                              $scope.msg = JSON.stringify(e);
+                              //alert(JSON.stringify(e));
                             }
                         });
                     }

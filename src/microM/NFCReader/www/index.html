@@ -43,7 +43,7 @@
             </div>
             <div class="button-bar">
                 <a class="button" ng-repeat="bin in binList" ng-click="binClicked(bin)">
-                  <i class="ion-checkmark" ng-show="selectedBinId == bin"></i>
+                  <i class="ion-checkmark" ng-show="selectedBinId == bin" data-bin="{{bin}}"></i>
                   {{bin}}
                 </a>
             </div>
@@ -56,11 +56,12 @@
                   <i class="ion-checkmark" ng-show="selectedMode == mode"></i>
                   {{mode.name}}
                 </a>
+                <input type="hidden" id="selectedModeId" value="{{selectedMode.id}}" />
             </div>
 
             <div class="card">
                 <div class="item item-divider">
-                    BIN: {{selectedBinId}}
+                    BIN: <label id="selectedBin">{{selectedBinId}}</label>
                 </div>
                 <div class="item item-text-wrap center">
                     Scan a tag to begin.
