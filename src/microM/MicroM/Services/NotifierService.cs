@@ -5,6 +5,7 @@ using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace MicroM.Services
@@ -19,6 +20,10 @@ namespace MicroM.Services
 
         public NotifierService(IHubContext context) {
             this.HubContext = context;
+        }
+
+        public async Task SendDispatchMessage(InventoryUpdateMessage change) {
+            this.HubContext.Clients.All.dispatchUpdate(change.BinId, change.SerialId);
         }
 
         public void SendProductInventoryChange(InventorySummary change) {
