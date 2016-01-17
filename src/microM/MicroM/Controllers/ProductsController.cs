@@ -51,6 +51,12 @@ namespace MicroM.Controllers
         {            
             return PartialView(this.ProductService.GetProducts());
         }
+
+        [HttpGet]
+        public JsonResult GetProducts()
+        {
+            return Json(ProductService.GetProducts(), JsonRequestBehavior.AllowGet);
+        }  
         
         public ActionResult Index()
         {

@@ -1,8 +1,107 @@
-﻿
+﻿@model List<MicroManage.Models.Bin>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h3>Index</h3>
 
+<button type="button" onclick="showCreate()" class="btn btn-primary">Add Bin</button>
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach(var i in Model)
+        {
+            <li>@i.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No Items</p>
+}
+
+<div class="modal fade" id="CreateBin" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Create New Category</h4>
+            </div>
+            <div id="create" class="modal-body">
+                @Html.Action("_Create")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="createBin()">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="EditBin" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Create New Category</h4>
+            </div>
+            <div id="edit" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editBin()">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    var productList = [];
+
+    function showCreate() {
+        $("#CreateBin").modal('show');
+    }
+
+    function createBin() {
+        $("#CreateForm").submit();
+    }
+
+    function showEdit(id) {
+        $("#edit").load("../../Bins/_Edit/" + id, function () {
+            $("#EditBin").modal('show');
+
+            //populate create product list
+            $.each(productList, function (i, val) {
+                if (val.Id == id) {
+                    $("#AssignedProductIdEdit").append("<option value='" + val.Id + "' selected>" + val.Name + "</option>");
+                }
+                else {
+                    $("#AssignedProductIdEdit").append("<option value='" + val.Id + "'>" + val.Name + "</option>");
+                }
+            });
+        });
+    }
+
+    function editBin() {
+        $("#EditForm").submit();
+    }
+
+    $(function () {
+        //populate item
+        $.ajax({
+            url: "../../Products/GetProducts",
+            type: "GET",
+            success: function (products) {
+                productList = products;
+
+                //populate create product list
+                $.each(productList, function (i, val) {
+                    $("#AssignedProductId").append("<option value='" + val.Id + "'>" + val.Name + "</option>");
+                });
+            }
+        });
+    });
+</script>
