@@ -7,11 +7,14 @@ using Microsoft.AspNet.SignalR;
 using MicroM.Hubs;
 using MicroM.Models;
 using MicroManage.Models;
+using MicroM.Services;
 
 namespace MicroM.Controllers
 {
     public class HomeController : _MicroController
     {
+        public object ProductService { get; private set; }
+
         public ActionResult Index()
         {
             return View();
@@ -40,11 +43,30 @@ namespace MicroM.Controllers
         [HttpGet]
         public JsonResult Product()
         {
-            List<Product> product = new List<Product>();
-            product = _db.Products.ToList();
 
-          return Json(product,JsonRequestBehavior .AllowGet);
-            
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
+            var notifierService = new NotifierService(hubContext);
+            var auditService = new AuditService(_db);
+            var productService = new ProductService(_db);
+            var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
+
+            var products = this.ProductService;
+
+            //products.Select(p => new
+            //{
+            //    Name = p.Name,
+            //    Count = inventoryService.GetProductCount(p.Id),
+            //    CategoryId = p.CategoryId,
+            //    Description = p.Description,
+            //    Price = p.Price,
+            //    WebAvailable = p.WebAvailable,
+
+
+            //}
+                );
+
+            return Json(products, JsonRequestBehavior .AllowGet);
+
         }
 
         [HttpGet]

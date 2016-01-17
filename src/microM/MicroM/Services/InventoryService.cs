@@ -16,7 +16,7 @@ namespace MicroM.Services
         public IAuditService AuditService { get; private set; }
         public IProductService ProductService { get; private set; }
 
-        private int GetProductCount(int productId) => this.Context.ProductInventories.Count(p => p.ProductId == productId && p.Status == InventoryStatus.InStock);
+        public int GetProductCount(int productId) => this.Context.ProductInventories.Count(p => p.ProductId == productId && p.Status == InventoryStatus.InStock);
 
         public InventoryService(MicroManageContext context, INotifierService notifierService, IAuditService auditService, IProductService productService) {
             this.Context = context;
