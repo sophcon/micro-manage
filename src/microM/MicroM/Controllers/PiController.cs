@@ -63,7 +63,7 @@ namespace MicroM.Controllers
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            await inventoryService.RemoveInventoryProduct(message.ProductId, message.SerialId);
+            await inventoryService.AllocateInventoryItem(message.SerialId);
 
             return Json(true);
         }
