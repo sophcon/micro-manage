@@ -10,6 +10,7 @@ namespace MicroM.Models
 {
     public class InventoryUpdateMessage
     {
+        public int BinId { get; set; }
         public int ProductId { get; set; }
         public string SerialId { get; set; }
     }

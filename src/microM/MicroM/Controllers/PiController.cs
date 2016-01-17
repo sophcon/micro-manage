@@ -33,7 +33,7 @@ namespace MicroM.Controllers
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
 
-            //notifierService
+            await notifierService.SendDispatchMessage(message);
         }
 
         [HttpPost]

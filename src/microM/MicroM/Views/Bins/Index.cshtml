@@ -10,12 +10,26 @@
 
 @if (Model.Any())
 {
-    <ul>
+    <table class="table table-condensed table-responsive">
+        <thead>
+            <tr>
+                <td><strong>Name</strong></td>
+                <td><strong>Action</strong></td>
+            </tr>
+        </thead>
+        <tbody>
         @foreach(var i in Model)
         {
-            <li>@i.Name <span class="glyphicon glyphicon-edit micro-icon" onclick="showEdit(@i.Id)" style="cursor:pointer"></span></li>
+            <tr>
+                <td>@i.Name</td>
+                    
+                <td>
+                    <span class="glyphicon glyphicon-edit micro-icon" onclick="showEdit(@i.Id)" style="cursor:pointer"></span>        
+                </td>
+            </tr>               
         }
-    </ul>
+        </tbody>
+    </table>
 }
 else
 {
