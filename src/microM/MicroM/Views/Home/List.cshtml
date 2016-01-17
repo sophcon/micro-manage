@@ -6,11 +6,11 @@
         </div>
         <div class="form-group">
             <label>Product</label>
-            <select class="form-control"ng-init="selected = products[0]" ng-options="product.Id as product.Name for product in products track by product.Id" ng-model="selected"></select>
+            <select class="form-control"ng-init="selected = products[0].Id" ng-options="product.Id as product.Name for product in products track by product.Id" ng-model="selected"></select>
         </div>
     <div class="form-group">
         <label>bin</label>
-        <select class="form-control" ng-init="binName = bins[0]" ng-options="bin.Id as bin.Name for bin in bins track by bin.Id" ng-model="binName"></select>
+        <select class="form-control" ng-init="binName = bins[0].Id" ng-options="bin.Id as bin.Name for bin in bins track by bin.Id" ng-model="binName"></select>
     </div>
     <div class="form-group">
         <button type="button" ng-click="addProduct()" class="btn btn-primary">add</button>

@@ -62,7 +62,7 @@
               type: "POST",
               data: {
                   serialId: $scope.serial,
-                  productId: $scope.selected.Id,
+                  productId: $scope.selected,
                   binId: $scope.binName
               }
           });
