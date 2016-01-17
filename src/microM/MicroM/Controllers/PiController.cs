@@ -75,5 +75,25 @@ namespace MicroM.Controllers
 
             return Json(true);
         }
+
+        public async Task<ActionResult> testView()
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
+            var notifierService = new NotifierService(hubContext);
+            var auditService = new AuditService(_db);
+            var productService = new ProductService(_db);
+            var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
+
+            InventoryUpdateMessage message = new InventoryUpdateMessage();
+
+            message.ProductId = 1;
+            message.SerialId = "asdfs";
+            message.BinId = 1;
+
+           await notifierService.SendDispatchMessage( message);
+                
+            return View();
+        }
+
     }
 } 

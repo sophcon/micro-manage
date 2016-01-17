@@ -1,6 +1,19 @@
 ﻿angular.module('App').controller('listCtrl', ['product','$scope','$http', function (product,$scope,$http) {
     $scope.products = product;
+    $scope.bins = {};
 
+    $.ajax({
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        url: '../../Bins/GetBins',
+        success: function (data) {
+            
+
+        }
+        });
+    $http.get('../../Bins/GetBins').then(function (response) {
+        return $scope.bins = response.data;
+    })
 
     console.log($scope.products);
 
@@ -19,10 +32,20 @@
               }
           })
           
+
+
           return true;
           
       });
-
+      hub.on("dispatchUpdate", function (binId, serialId) {
+          console.log("binName",$scope.binName);
+          if($scope.binName === binId){
+              $scope.serial = serialId;
+          }
+          console.log(binId);
+          console.log(serialId);
+          $scope.$apply();
+      })
       con.start(function () {
           //get initial data/object
           //hub.invoke("MethodNameOnHub");
@@ -40,6 +63,7 @@
               data: {
                   serialId: $scope.serial,
                   productId: $scope.selected,
+                  binId: $scope.binName
               }
           });
       }

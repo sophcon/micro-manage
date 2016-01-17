@@ -320,6 +320,7 @@
     <Content Include="Views\Bins\Index.cshtml" />
     <Content Include="Views\Bins\_Create.cshtml" />
     <Content Include="Views\Bins\_Edit.cshtml" />
+    <Content Include="Views\Pi\testView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

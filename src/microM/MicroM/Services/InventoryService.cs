@@ -93,5 +93,7 @@ namespace MicroM.Services
                     Count = GetProductCount(inventoryEntry.ProductId)
                 });
         }
+
+
     }
 }

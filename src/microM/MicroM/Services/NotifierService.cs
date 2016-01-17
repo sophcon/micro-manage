@@ -23,7 +23,7 @@ namespace MicroM.Services
         }
 
         public async Task SendDispatchMessage(InventoryUpdateMessage change) {
-            this.HubContext.Clients.All.dispatchUpdate(change.BinId, change.SerialId);
+          await  this.HubContext.Clients.All.dispatchUpdate(change.BinId, change.SerialId);
         }
 
         public void SendProductInventoryChange(InventorySummary change) {
