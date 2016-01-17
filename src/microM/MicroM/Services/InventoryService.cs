@@ -48,7 +48,7 @@ namespace MicroM.Services
             await UpdateInventoryStatus(pi, InventoryStatus.InStock, binId);
         }
 
-        public async Task AddSerializedItem (int Id, string serialId)
+        public async Task AddSerializedItem (int productId, string serialId, int binId)
         {
             var inventoryEntry = await GetInventoryBySerialIdAsync(serialId);
 
@@ -57,8 +57,9 @@ namespace MicroM.Services
             }
             inventoryEntry = new ProductInventory
             {
-                ProductId = Id,
+                ProductId = productId,
                 SerialId = serialId,
+                BinId = binId,
                 Status = InventoryStatus.InStock
             };
             this.Context.ProductInventories.Add(inventoryEntry);
@@ -93,7 +94,5 @@ namespace MicroM.Services
                     Count = GetProductCount(inventoryEntry.ProductId)
                 });
         }
-
-
     }
 }

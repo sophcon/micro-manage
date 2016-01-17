@@ -58,7 +58,7 @@ namespace MicroM.Controllers
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            await inventoryService.AddSerializedItem(message.ProductId, message.SerialId);
+            await inventoryService.AddSerializedItem(message.ProductId, message.SerialId, message.BinId);
 
             return Json(true);
         }
@@ -76,7 +76,7 @@ namespace MicroM.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> testView()
+        public ActionResult testView()
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<MicroHub>();
             var notifierService = new NotifierService(hubContext);
@@ -84,14 +84,10 @@ namespace MicroM.Controllers
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            InventoryUpdateMessage message = new InventoryUpdateMessage();
+            
 
-            message.ProductId = 1;
-            message.SerialId = "asdfs";
-            message.BinId = 1;
+            //inventoryService.AllocateInventoryItem(message.SerialId);
 
-           await notifierService.SendDispatchMessage( message);
-                
             return View();
         }
 
