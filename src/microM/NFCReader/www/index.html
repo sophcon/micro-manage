@@ -35,8 +35,21 @@
     <ion-header-bar class="bar-stable">
         <h1 class="title">NFC Reader</h1>
     </ion-header-bar>
-
     <ion-content>
+      <div ng-if="!selectedBinId">
+        <div class="card">
+            <div class="item item-divider">
+                Please Assign a Bin #
+            </div>
+            <div class="button-bar">
+                <a class="button" ng-repeat="bin in binList" ng-click="binClicked(bin)">
+                  <i class="ion-checkmark" ng-show="selectedBinId == bin"></i>
+                  {{bin}}
+                </a>
+            </div>
+        </div>
+      </div>
+      <div ng-if="selectedBinId">
         <div ng-if="!tag.id">
             <div class="button-bar">
                 <a class="button" ng-repeat="mode in modeList" ng-click="modeClicked(mode)">
@@ -44,12 +57,13 @@
                   {{mode.name}}
                 </a>
             </div>
+
             <div class="card">
                 <div class="item item-divider">
-                    MODE: {{selectedMode.name}}
+                    BIN: {{selectedBinId}}
                 </div>
                 <div class="item item-text-wrap center">
-                    Scan a tag to being.
+                    Scan a tag to begin.
                 </div>
             </div>
         </div>
@@ -91,7 +105,11 @@
             </div>
 
         </div>
+      </div>
     </ion-content>
+    <div class="bar bar-footer bar-balanced" ng-if="selectedBinId">
+      <button class="button" ng-click="binClicked(null)">Reset Bin</button>
+    </div>
 </ion-pane>
 </body>
 </html>
