@@ -37,8 +37,14 @@
           return true;
           
       });
-      hub.on("dispatchUpdate", function (message) {
-          console.log(message);
+      hub.on("dispatchUpdate", function (binId, serialId) {
+          console.log("binName",$scope.binName);
+          if($scope.binName === binId){
+              $scope.serial = serialId;
+          }
+          console.log(binId);
+          console.log(serialId);
+          $scope.$apply();
       })
       con.start(function () {
           //get initial data/object
