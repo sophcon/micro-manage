@@ -66,7 +66,7 @@ angular.module('ionicNFC', ['ionic', 'nfcFilters'])
                     if(url != "") {
                         $.ajax({
                             url: url,
-                            type: "POST",a
+                            type: "POST",
                             data: postData,
                             crossDomain: true,
                             dataType: 'application/json',
