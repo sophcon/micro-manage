@@ -49,5 +49,7 @@ namespace MicroM.Controllers
         {
             return View(BinService.GetBins());
         }
+
+
     }
 }

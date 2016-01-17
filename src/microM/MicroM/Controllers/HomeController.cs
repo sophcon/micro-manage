@@ -13,7 +13,9 @@ namespace MicroM.Controllers
 {
     public class HomeController : _MicroController
     {
-        public object ProductService { get; private set; }
+        private ProductService ProductService;
+        public HomeController() { this.ProductService = new ProductService(_db); }
+        
 
         public ActionResult Index()
         {
@@ -50,22 +52,19 @@ namespace MicroM.Controllers
             var productService = new ProductService(_db);
             var inventoryService = new InventoryService(_db, notifierService, auditService, productService);
 
-            var products = this.ProductService;
-
-            //products.Select(p => new
-            //{
-            //    Name = p.Name,
-            //    Count = inventoryService.GetProductCount(p.Id),
-            //    CategoryId = p.CategoryId,
-            //    Description = p.Description,
-            //    Price = p.Price,
-            //    WebAvailable = p.WebAvailable,
-
-
-            //}
+            var products = this.ProductService.GetProducts().Select(p => new
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Count = inventoryService.GetProductCount(p.Id),
+                CategoryId = p.CategoryId,
+                Description = p.Description,
+                Price = p.Price,
+                WebAvailable = p.WebAvailable,
+            }
                 );
 
-            return Json(products, JsonRequestBehavior .AllowGet);
+            return Json(products, JsonRequestBehavior.AllowGet);
 
         }
 
